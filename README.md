@@ -1,6 +1,5 @@
 # Dialogue-Slot-Filling
 
-[中文](README_CN.md) | [English](README.md)
 
 ### ✨ Overview
 
@@ -8,7 +7,7 @@ This project is a demo achieving entity extraction in dialogues, which can be us
 
 The LLM is using OpenAI API.
 
-Using booking flight as example.
+Using Insurance Purchasing as example.
 
 
 

@@ -2,7 +2,7 @@ import gradio as gr
 from typing import Dict
 from langchain.chat_models.openai import ChatOpenAI
 from langchain_google_genai import GoogleGenerativeAI
-from langchain.chains import ConversationChain
+from langchain.chains.conversation.base import ConversationChain
 from typing import Optional, Tuple
 from chains.slot_memory import SlotMemory
 from chains.prompt import CHAT_PROMPT
@@ -14,8 +14,8 @@ chain: ConversationChain
 
 
 def initial_chain():
-    # llm = ChatOpenAI(name="DDLGAI", temperature=model_config.temperature, openai_api_key=model_config.openai_api_key)
-    llm = GoogleGenerativeAI(name="DDLGAI", model="gemini-pro", google_api_key=model_config.gemini_api_key)
+    llm = ChatOpenAI(name="DDLGAI", temperature=model_config.temperature, openai_api_key=model_config.openai_api_key)
+    # llm = GoogleGenerativeAI(name="DDLGAI", model="gemini-pro", google_api_key=model_config.gemini_api_key)
     memory = SlotMemory(llm=llm)
     global chain
     chain = ConversationChain(llm=llm, memory=memory, prompt=CHAT_PROMPT)
@@ -43,7 +43,8 @@ def slot_format(slot_dict: Dict):
 
 def predict(command, history: Optional[Tuple[str, str]]):
     history = history or []
-    response = chain.run(input=command)
+    response = chain.invoke(input=command)['response']
+    # print(response)
     current_slot = chain.memory.current_slots
     history.append((command, response))
     return history, history, '', slot_format(current_slot)
