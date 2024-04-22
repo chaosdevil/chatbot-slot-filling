@@ -13,7 +13,7 @@ from langchain.schema.messages import get_buffer_string
 from chains.prompt import SLOT_EXTRACTION_PROMPT
 
 # define the slots dict and assign to null
-SLOT_DICT = {"name": "null", "origin": "null", "destination": "null", "departure_time": "null"}
+SLOT_DICT = {"name": "null","vehicle_condition": "null","previous_accidents": "null","vehicle_model": "null","mileage": "null","age": "null","previous_purchased_insurance": "null","insurance_plan": "null"}
 
 
 class SlotMemory(BaseChatMemory):
@@ -52,6 +52,7 @@ class SlotMemory(BaseChatMemory):
     def information_check(self):
         self.inform_check = True
         for value in self.current_slots.values():
+            print(self.current_slots)
             if value == "null":
                 self.inform_check = False
                 break

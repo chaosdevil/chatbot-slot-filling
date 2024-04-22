@@ -1,4 +1,5 @@
 import gradio as gr
+from typing import Dict
 from langchain.chat_models.openai import ChatOpenAI
 from langchain_google_genai import GoogleGenerativeAI
 from langchain.chains import ConversationChain
@@ -25,8 +26,18 @@ def clear_session():
     return [], []
 
 
-def slot_format(slot_dict):
-    result = f"name: {slot_dict['name']}\norigin: {slot_dict['origin']}\ndestination: {slot_dict['destination']}\ndeparture_time: {slot_dict['departure_time']}\n"
+def slot_format(slot_dict: Dict):
+    # result = f"name: {slot_dict['name']}\norigin: {slot_dict['origin']}\ndestination: {slot_dict['destination']}\ndeparture_time: {slot_dict['departure_time']}\n"
+    result = f"""
+    name: {slot_dict['name']}
+    vehicle_condition: {slot_dict['vehicle_condition']}
+    previous_accidents: {slot_dict['previous_accidents']}
+    vehicle_model: {slot_dict['vehicle_model']}
+    mileage: {slot_dict['mileage']}
+    age: {slot_dict['age']}
+    previous_purchased_insurance: {slot_dict['previous_purchased_insurance']}
+    insurance_plan: {slot_dict['insurance_plan']}
+    """
     return result
 
 
