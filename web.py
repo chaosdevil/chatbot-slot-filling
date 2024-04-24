@@ -1,6 +1,7 @@
 import gradio as gr
 from typing import Dict
 from langchain.chat_models.openai import ChatOpenAI
+from langchain.chat_models.azure_openai import AzureChatOpenAI
 from langchain_google_genai import GoogleGenerativeAI
 from langchain.chains.conversation.base import ConversationChain
 from typing import Optional, Tuple
@@ -14,8 +15,12 @@ chain: ConversationChain
 
 
 def initial_chain():
-    llm = ChatOpenAI(name="DDLGAI", temperature=model_config.temperature, openai_api_key=model_config.openai_api_key)
-    # llm = GoogleGenerativeAI(name="DDLGAI", model="gemini-pro", google_api_key=model_config.gemini_api_key)
+    # llm = AzureChatOpenAI(name="DDLGAI", model="general-model", max_tokens=1024, max_retries=3,
+    #                       azure_endpoint=model_config.azure_endpoint, temperature=model_config.temperature, 
+    #                       api_key=model_config.azure_openai_key, api_version=model_config.azure_openai_version)
+    # llm = AzureChatOpenAI(name="DDLGAI", model="general-model", azure_endpoint=model_config.azure_endpoint, temperature=model_config.temperature, api_key=model_config.azure_openai_key, api_version=model_config.azure_openai_version)
+    # llm = ChatOpenAI(name="DDLGAI", temperature=model_config.temperature, openai_api_key=model_config.openai_api_key)
+    llm = GoogleGenerativeAI(name="DDLGAI", model="gemini-pro", google_api_key=model_config.gemini_api_key)
     memory = SlotMemory(llm=llm)
     global chain
     chain = ConversationChain(llm=llm, memory=memory, prompt=CHAT_PROMPT)

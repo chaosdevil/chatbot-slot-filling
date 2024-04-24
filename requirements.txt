@@ -1,2 +1,4 @@
 langchain
 gradio
+openai
+google-generativeai

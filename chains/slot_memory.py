@@ -1,6 +1,7 @@
 import copy
 import json
 from typing import Any, Dict, List
+from ast import literal_eval
 from pydantic import Field
 from datetime import datetime
 from langchain.chains.llm import LLMChain
@@ -52,7 +53,7 @@ class SlotMemory(BaseChatMemory):
     def information_check(self):
         self.inform_check = True
         for value in self.current_slots.values():
-            print(self.current_slots)
+            # print(self.current_slots)
             if value == "null":
                 self.inform_check = False
                 break
@@ -73,8 +74,9 @@ class SlotMemory(BaseChatMemory):
         output = chain.predict(
             history=buffer_string, input=inputs[prompt_input_key], slots=slots, current_datetime=self.current_datetime
         )
-        output = output.replace("None", "null")
+        output = output.replace("None", "'null'")
         try:
+            print(output)
             output_json = json.loads(output)
         except Exception:
             print(f"error output: {output}")
